@@ -2,7 +2,7 @@
     <div class="navbar">
         <nav class="blue lighten-1">
             <div class="container">
-                <router-link class="brand-logo left" :to="{ name: 'home' }">VResume</router-link>
+                <span class="brand-logo left">VResume</span>
                 <ul class="right">
                     <li v-if="!user">
                         <router-link :to="{ name: 'register' }">Register</router-link>
@@ -11,7 +11,7 @@
                         <router-link :to="{ name: 'login' }">Login</router-link>
                     </li>
                     <li v-if="user">
-                        <a href="#" class="grey-text text-lighten-1">{{ user.email }}</a>
+                        <a href="#">{{ user.email }}</a>
                     </li>
                     <li v-if="user">
                         <a @click="logout">Logout</a>
@@ -51,6 +51,3 @@ export default {
     }
 };
 </script>
-
-<style>
-</style>

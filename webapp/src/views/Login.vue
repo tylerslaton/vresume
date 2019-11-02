@@ -33,7 +33,11 @@ export default {
         async login() {
             try {
                 const cred = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
-                this.$router.push({ name: 'home' });
+                const snapshot = await db
+                    .collection('users')
+                    .where('uid', '==', firebase.auth().currentUser.uid)
+                    .get();
+                snapshot.forEach(doc => this.$router.push({ name: `${doc.data().role}-home` }));
             } catch (error) {
                 this.error = error.message || error;
             }

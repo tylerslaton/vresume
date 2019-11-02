@@ -18,9 +18,17 @@ const router = new VueRouter({
             component: () => import('../views/Login.vue')
         },
         {
-            path: '/',
-            name: 'home',
-            component: () => import('../views/Home.vue'),
+            path: '/student-home',
+            name: 'student-home',
+            component: () => import('../views/HomeStudent.vue'),
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/employer-home',
+            name: 'employer-home',
+            component: () => import('../views/HomeEmployer.vue'),
             meta: {
                 requiresAuth: true
             }

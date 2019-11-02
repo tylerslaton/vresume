@@ -99,7 +99,7 @@ export default {
                 db.collection('users')
                     .doc(cred.user.uid)
                     .set(userToAdd);
-                this.$router.push({ name: 'home' });
+                this.$router.push({ name: `${this.role}-home` });
             } catch (error) {
                 this.error = error.message || error;
             }
