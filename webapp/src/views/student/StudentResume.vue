@@ -110,7 +110,7 @@ export default {
 </script>
 
 <style scoped>
-.modal.open {
+.modal {
     left: auto;
     right: auto;
     width: 345px;
