@@ -1,8 +1,8 @@
 <template>
     <div class="container" style="margin-top: 50px;">
-        <keep-alive>
-            <component :is="currentComponent || 'ViewResumes'" />
-        </keep-alive>
+        <!-- <keep-alive> -->
+        <component :is="currentComponent || 'ViewResumes'" />
+        <!-- </keep-alive> -->
     </div>
 </template>
 
@@ -13,11 +13,13 @@ import { mapState } from 'vuex';
 
 import ViewResumes from './ViewResumes.vue';
 import HowItWorks from './HowItWorks.vue';
+import AcceptQRCode from './AcceptQRCode.vue';
 
 export default {
     name: 'HomeEmployer',
     components: {
         ViewResumes,
+        AcceptQRCode,
         HowItWorks
     },
     data() {
