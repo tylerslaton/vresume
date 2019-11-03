@@ -8,7 +8,6 @@ RUN pip3 install             \
         pytesseract          \
         pillow               \
         pandas               \
-        re                   \
         flask                \
         firebase_admin       \
         google-cloud-storage \

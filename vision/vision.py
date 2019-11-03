@@ -63,7 +63,7 @@ def reversePolarizeImage(image):
     return bw_doc_image
 
 def getConfidentWords(image):
-    confident_words = pytesseract.image_to_data(image, output_type='data.frame').query('conf >= 90')
+    confident_words = pytesseract.image_to_data(image, output_type='data.frame').query('conf >= 85')
     return confident_words.iloc[1:, 11].to_numpy()
 
 def combineLists(list_a, list_b):
@@ -74,20 +74,20 @@ def getAlteredImages(image):
 
     polarized_image = polarizeImage(image)
     enlarged_image = image.resize((2*width, 2*height))
-    sharpened_image = image.filter(ImageFilter.SHARPEN).filter(ImageFilter.SHARPEN)
+    #sharpened_image = image.filter(ImageFilter.SHARPEN).filter(ImageFilter.SHARPEN)
     mask = polarized_image
     base = image
     double_image = base.copy()
     double_image.paste(mask, None, reversePolarizeImage(mask))
-    return [polarized_image, enlarged_image, sharpened_image, double_image]
+    return [polarized_image, enlarged_image, double_image]
 
 def getKeywords(image):
-    polarized_image, enlarged_image, sharpened_image, double_image = getAlteredImages(image)
+    polarized_image, enlarged_image, double_image = getAlteredImages(image)
 
     keywords = getConfidentWords(image)
     keywords = combineLists(keywords, getConfidentWords(polarized_image))
     keywords = combineLists(keywords, getConfidentWords(enlarged_image))
-    keywords = combineLists(keywords, getConfidentWords(sharpened_image))
+    #keywords = combineLists(keywords, getConfidentWords(sharpened_image))
     keywords = combineLists(keywords, getConfidentWords(double_image))
     return keywords
 
@@ -111,12 +111,17 @@ def process():
 
         image = Image.open('testResume.JPG')
         text = [word.upper() for word in getKeywords(image)]
-        text = [re.sub(r'\W+', '', word) for word in text]
+        text_wo_whitespace = [re.sub(r'\W+', '', word) for word in text]
 
         foundTags = []
         for tag in tags:
             if tag.upper() in text:
                 foundTags.append(tag)
+                
+        for tag in tags:
+            if tag.upper() in text_wo_whitespace:
+                foundTags.append(tag)
+                
         return json.dumps(foundTags)
 
     except Exception as e:
