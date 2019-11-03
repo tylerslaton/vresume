@@ -1,6 +1,6 @@
 <template>
     <div>
-        
+        configure bot
     </div>
 </template>
 

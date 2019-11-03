@@ -1,7 +1,9 @@
 <template>
     <div>
         <div class="container" style="margin-top: 50px;">
-            <component :is="currentComponent || 'StudentResume'" />
+            <keep-alive>
+                <component :is="currentComponent || 'StudentResume'" />
+            </keep-alive>
         </div>
     </div>
 </template>

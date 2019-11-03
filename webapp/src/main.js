@@ -10,7 +10,10 @@ Vue.config.productionTip = false;
 let app = null;
 
 firebase.auth().onAuthStateChanged(() => {
-    if (!firebase.auth().currentUser) localStorage.clear();
+    if (!firebase.auth().currentUser) {
+        localStorage.clear();
+        store.dispatch('setCurrentComponent', null);
+    }
     if (!app) {
         app = new Vue({
             router,

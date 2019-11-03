@@ -47,7 +47,10 @@ export default {
     },
     computed: {
         showSideNav() {
-            return this.$route && (this.$route.name !== 'login' && this.$route.name !== 'register');
+            return (
+                this.user &&
+                (this.$route.name !== 'login' && this.$route.name !== 'register')
+            );
         }
     },
     created() {

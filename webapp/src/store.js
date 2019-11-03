@@ -10,7 +10,6 @@ export default new Vuex.Store({
     },
     mutations: {
         setCurrentComponent: (state, payload) => {
-            console.log(payload);
             state.currentComponent = payload;
         }
     },

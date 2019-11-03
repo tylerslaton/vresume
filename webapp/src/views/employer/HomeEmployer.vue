@@ -1,26 +1,34 @@
 <template>
     <div class="container" style="margin-top: 50px;">
-        <h3 v-if="user" class="center">Employer Home</h3>
+        <keep-alive>
+            <component :is="currentComponent || 'ViewResumes'" />
+        </keep-alive>
     </div>
 </template>
 
 <script>
 import db from '../../firebase/init';
 import firebase from 'firebase/app';
+import { mapState } from 'vuex';
+
+import ViewResumes from './ViewResumes.vue';
+import ConfigureBot from './ConfigureBot.vue';
+import HowItWorks from './HowItWorks.vue';
 
 export default {
     name: 'home',
+    components: {
+        ViewResumes,
+        ConfigureBot,
+        HowItWorks
+    },
     data() {
         return {
             user: null
         };
     },
-    async created() {
-        const snapshot = await db
-            .collection('users')
-            .where('uid', '==', firebase.auth().currentUser.uid)
-            .get();
-        snapshot.forEach(doc => (this.user = doc.data()));
+    computed: {
+        ...mapState(['currentComponent'])
     }
 };
 </script>
