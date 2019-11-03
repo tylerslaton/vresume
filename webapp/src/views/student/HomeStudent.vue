@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container" style="margin-top: 50px;">
+        <div class="container">
             <keep-alive>
                 <component :is="currentComponent || 'StudentResume'" />
             </keep-alive>
@@ -35,3 +35,10 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.container {
+    overflow: auto;
+    margin-top: 25px;
+}
+</style>
