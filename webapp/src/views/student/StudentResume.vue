@@ -1,13 +1,25 @@
 <template>
     <div>
-        <div v-if="!userResume && !loading" class="card-panel">
-            <h3 class="center">Please upload your resume</h3>
+        <div class="resume-container">
+            <div v-if="!userResume && !loading" class="card-panel">
+                <h3 class="center">Please upload your resume</h3>
+            </div>
+            <img class="resume" v-if="userResume" :src="userResume" alt />
+            <br />
+            <button
+                v-if="!loading"
+                :disabled="uploading"
+                class="btn blue darken-1"
+                @click="chooseFile"
+            >Upload</button>
+            <input
+                type="file"
+                id="resume"
+                hidden
+                accept=".pdf, .jpeg, .jpg, .png"
+                @change="uploadResume"
+            />
         </div>
-
-        <img class="resume" v-if="userResume" :src="userResume" alt />
-        <br>
-        <button v-if="!loading" :disabled="uploading" class="btn blue darken-1" @click="chooseFile">Upload</button>
-        <input type="file" id="resume" hidden accept=".pdf, .jpeg, .jpg, .png" @change="uploadResume" />
     </div>
 </template>
 
@@ -73,6 +85,12 @@ export default {
 </script>
 
 <style scoped>
+.resume-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .card-panel {
     max-width: 650px;
     min-height: 650px;

@@ -37,8 +37,8 @@ export default {
 </script>
 
 <style scoped>
-h5 {
-    margin-bottom: 45px;
+hr {
+    margin: 25px 0;
 }
 b,
 p {
