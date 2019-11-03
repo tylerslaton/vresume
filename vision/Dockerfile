@@ -8,6 +8,7 @@ RUN pip3 install           \
         pytesseract        \
         pillow             \
         pdf2image          \
+        flask              \
     && apt-get -y update   \ 
     && apt-get -y install  \
         tesseract-ocr      \
