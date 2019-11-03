@@ -1,7 +1,9 @@
 <template>
-    <div>
+    <div class="qr-code">
         <h5>Scan QR Code</h5>
+        {{QRCode}}
         <qrcode-stream @decode="onDecode"></qrcode-stream>
+        <button class="btn blue darken-1 center">Accept</button>
     </div>
 </template>
 
@@ -27,3 +29,14 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.qr-code {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.btn {
+    margin-top: 15px;
+}
+</style>
