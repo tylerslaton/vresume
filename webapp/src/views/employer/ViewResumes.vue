@@ -11,11 +11,7 @@
                     <span>{{ selectedUser.email }}</span>
                 </div>
                 <hr />
-
                 <img class="center" v-if="selectedUser.resume" :src="selectedUser.resume" />
-            </div>
-            <div class="modal-footer">
-                <!-- <a href="#" class="modal-close waves-effect waves-green btn-flat">Agree</a> -->
             </div>
         </div>
         <div v-if="user && user.applicants">

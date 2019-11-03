@@ -1,17 +1,37 @@
 <template>
     <div>
         <div class="resume-container">
+            <div id="QRCodeModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>QR Code</h4>
+                    </div>
+                    <hr />
+                    <img v-if="generatedCode" :src="generatedCode" />
+                </div>
+            </div>
             <div v-if="!userResume && !loading">
                 <h5 class="center">You have not submitted a resume</h5>
             </div>
             <img class="resume" v-if="userResume" :src="userResume" alt />
             <br />
-            <button
-                v-if="!loading"
-                :disabled="uploading"
-                class="btn blue darken-1"
-                @click="chooseFile"
-            >{{ buttonText }}</button>
+            <div class="buttons">
+                <button
+                    v-if="!loading"
+                    :disabled="uploading"
+                    class="btn blue darken-1"
+                    @click="chooseFile"
+                >{{ buttonText }}</button>
+                <a
+                    v-if="!loading && userResume"
+                    :disabled="uploading"
+                    class="btn modal-trigger"
+                    href="#QRCodeModal"
+                    style="margin-left: 15px;"
+                    @click="generateQRCode"
+                >Generate QR Code</a>
+            </div>
+
             <input
                 type="file"
                 id="resume"
@@ -36,7 +56,9 @@ export default {
             storageRef: firebase.storage().ref(),
             uploading: false,
             userID: firebase.auth().currentUser.uid,
-            loading: false
+            loading: false,
+            generatedCode: null,
+            generating: false
         };
     },
     computed: {
@@ -58,6 +80,7 @@ export default {
             .get();
         this.userResume = user.data().resume;
         this.loading = false;
+        M.AutoInit();
     },
     methods: {
         chooseFile() {
@@ -77,13 +100,32 @@ export default {
                 .doc(this.userID)
                 .set({ resume: this.userResume }, { merge: true });
             this.uploading = false;
+        },
+        generateQRCode() {
+            const code = encodeURIComponent(this.userResume);
+            this.generatedCode = `https://api.qrserver.com/v1/create-qr-code/?data=${code}&size=200x200`;
         }
     }
 };
 </script>
 
 <style scoped>
+.modal.open {
+    left: auto;
+    right: auto;
+    width: 375px;
+    height: 340px;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .resume-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
