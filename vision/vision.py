@@ -81,8 +81,11 @@ def getAlteredImages(image):
     double_image.paste(mask, None, reversePolarizeImage(mask))
     return [polarized_image, enlarged_image, double_image]
 
-def getKeywords(image):
+def getKeywords(image, expedite):
     polarized_image, enlarged_image, double_image = getAlteredImages(image)
+    
+    if expedite:
+        return getConfidentWords(enlarged_image)
 
     keywords = getConfidentWords(image)
     keywords = combineLists(keywords, getConfidentWords(polarized_image))
@@ -99,6 +102,10 @@ def process():
         employerID = incomingInfo['employerID']
         appName    = incomingInfo['appName']
         tags       = incomingInfo['tags']
+        expedite   = incomingInfo['expedite']
+        
+        if expedite is None:
+            expedite = False
 
         files = bucket.list_blobs(prefix='resumes/'+incomingInfo['employerID'])
         fileList = [file.name for file in files if '.' in file.name]
@@ -110,7 +117,7 @@ def process():
                 break
 
         image = Image.open('testResume.JPG')
-        text = [word.upper() for word in getKeywords(image)]
+        text = [word.upper() for word in getKeywords(image, expedite)]
         text_alphanumeric = [re.sub(r'\W+', '', word) for word in text]
 
         found_tags = []
