@@ -19,11 +19,11 @@ def polarizeImage(image):
     return bw_doc_image
 
 def main():
-    image = Image.open('testImages/test.JPG')
-    #image.show()
+    print('----enter main----')
+    image = Image.open('testImages/testImg01.JPG')
     text = pytesseract.image_to_string(polarizeImage(image))
     print(text)
-    print('\nmain complete\n')
+    print('----main complete----')
 
 if __name__ == "__main__":
     app.run(port=80, host="0.0.0.0")
