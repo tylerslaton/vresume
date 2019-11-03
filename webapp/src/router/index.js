@@ -20,7 +20,7 @@ const router = new VueRouter({
         {
             path: '/student-home',
             name: 'student-home',
-            component: () => import('../views/HomeStudent.vue'),
+            component: () => import('../views/student/HomeStudent.vue'),
             meta: {
                 requiresAuth: true
             }
@@ -28,20 +28,24 @@ const router = new VueRouter({
         {
             path: '/employer-home',
             name: 'employer-home',
-            component: () => import('../views/HomeEmployer.vue'),
+            component: () => import('../views/employer/HomeEmployer.vue'),
             meta: {
                 requiresAuth: true
             }
+        },
+        {
+            path: '*',
+            redirect: '/login'
         }
     ]
 });
 
 router.beforeEach((to, from, next) => {
-    // check if route requires auth
     if (to.matched.some(rec => rec.meta.requiresAuth)) {
         if (firebase.auth().currentUser) {
             next();
         } else {
+            firebase.auth().signOut();
             next({ name: 'login' });
         }
     } else {
