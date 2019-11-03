@@ -96,9 +96,5 @@ li a {
     .sidenav-trigger {
         display: none;
     }
-
-    /* .logo-logged-in {
-        margin-left: 300px;
-    } */
 }
 </style>

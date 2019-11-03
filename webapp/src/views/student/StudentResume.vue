@@ -91,13 +91,19 @@ export default {
 }
 
 .card-panel {
-    max-width: 650px;
+    max-width: 750px;
     min-height: 650px;
     margin: 0 auto;
 }
 
 .resume {
-    max-width: 550px;
+    max-width: 530px;
     margin-bottom: 7px;
+}
+
+@media (max-width: 500px) {
+    .resume {
+        max-width: 385px;
+    }
 }
 </style>
