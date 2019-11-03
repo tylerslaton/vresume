@@ -87,6 +87,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: -20px;
 }
 
 .card-panel {
@@ -96,7 +97,7 @@ export default {
 }
 
 .resume {
-    max-width: 500px;
-    margin-bottom: 15px;
+    max-width: 550px;
+    margin-bottom: 7px;
 }
 </style>

@@ -13,16 +13,36 @@
         </div>
         <div class="container">
             <ul v-if="user && user.role === 'student'">
-                <li @click="setCurrentComponent('StudentResume')">View resume</li>
-                <li @click="setCurrentComponent('ResumeTips')">Resume tips</li>
-                <li @click="setCurrentComponent('InterviewTips')">Interview tips</li>
-                <li @click="setCurrentComponent('BrandAwareness')">Brand awareness</li>
-                <li @click="setCurrentComponent('HowItWorks')">How it works</li>
+                <li
+                    :class="{'is-active': !currentComponent || currentComponent === 'StudentResume'}"
+                    @click="setCurrentComponent('StudentResume')"
+                >View resume</li>
+                <li
+                    :class="{'is-active': currentComponent === 'ResumeTips'}"
+                    @click="setCurrentComponent('ResumeTips')"
+                >Resume tips</li>
+                <li
+                    :class="{'is-active': currentComponent === 'InterviewTips'}"
+                    @click="setCurrentComponent('InterviewTips')"
+                >Interview tips</li>
+                <li
+                    :class="{'is-active': currentComponent === 'BrandAwareness'}"
+                    @click="setCurrentComponent('BrandAwareness')"
+                >Brand awareness</li>
+                <li
+                    :class="{'is-active': currentComponent === 'HowItWorks'}"
+                    @click="setCurrentComponent('HowItWorks')"
+                >How it works</li>
             </ul>
             <ul v-if="user && user.role === 'employer'">
-                <li @click="setCurrentComponent('ViewResumes')">View all resumes</li>
-                <li @click="setCurrentComponent('ConfigureBot')">Configure bot</li>
-                <li @click="setCurrentComponent('HowItWorks')">How it works</li>
+                <li
+                    :class="{'is-active': !currentComponent || currentComponent === 'ViewResumes'}"
+                    @click="setCurrentComponent('ViewResumes')"
+                >View all resumes</li>
+                <li
+                    :class="{'is-active': currentComponent === 'HowItWorks'}"
+                    @click="setCurrentComponent('HowItWorks')"
+                >How it works</li>
             </ul>
         </div>
     </div>
@@ -31,7 +51,7 @@
 <script>
 import firebase from 'firebase';
 import db from '../firebase/init';
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { getCurrentUser } from '../services/users';
 
 export default {
@@ -46,6 +66,7 @@ export default {
         };
     },
     computed: {
+        ...mapState(['currentComponent']),
         uploadRef() {
             return firebase
                 .storage()
@@ -123,5 +144,14 @@ li,
 .sidebar-header span {
     cursor: pointer;
     font-size: 18px;
+}
+
+li {
+    color: #5a5a5a;
+}
+
+li.is-active {
+    color: #1a1a1a;
+    font-weight: 600;
 }
 </style>
