@@ -10,7 +10,7 @@
                 >
                     <i class="material-icons">menu</i>
                 </a>
-                <a class="brand-logo center">
+                <a>
                     <img
                         src="https://cdn.discordapp.com/attachments/636610599534723093/640305846621831228/cropped_black.png"
                         class="logo"
@@ -97,8 +97,8 @@ li a {
         display: none;
     }
 
-    .logo-logged-in {
+    /* .logo-logged-in {
         margin-left: 300px;
-    }
+    } */
 }
 </style>
