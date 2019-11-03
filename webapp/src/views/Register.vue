@@ -52,6 +52,7 @@
 <script>
 import db from '@/firebase/init';
 import firebase from 'firebase/app';
+import { setCurrentUser } from '../services/users';
 
 export default {
     name: 'Register',
@@ -99,6 +100,9 @@ export default {
                 db.collection('users')
                     .doc(cred.user.uid)
                     .set(userToAdd);
+
+                setCurrentUser(userToAdd);
+
                 this.$router.push({ name: `${this.role}-home` });
             } catch (error) {
                 this.error = error.message || error;

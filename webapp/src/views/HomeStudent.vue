@@ -1,7 +1,7 @@
 <template>
     <div class="container" style="margin-top: 50px;">
         <h3 v-if="user" class="center">Student Home</h3>
-        <Resume />
+        <!-- <Resume /> -->
     </div>
 </template>
 

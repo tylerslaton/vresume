@@ -12,6 +12,7 @@
                 </a>
                 <img
                     src="https://cdn.discordapp.com/attachments/636610599534723093/640305846621831228/cropped_black.png"
+                    class="logo"
                 />
                 <ul class="right">
                     <li v-if="!user">
@@ -28,12 +29,11 @@
         </nav>
         <span v-show="showSideNav">
             <ul id="slide-out" class="sidenav sidenav-fixed">
-                <li>
-                    <a href="#!">First Sidebar Link</a>
-                </li>
-                <li>
-                    <a href="#!">Second Sidebar Link</a>
-                </li>
+                <div class="sidebar-header red lighten-1">
+                    <img class="center"
+                        src="https://cdn.discordapp.com/attachments/639928720274227231/640337425142644757/largeg.jpg"
+                    />
+                </div>
             </ul>
         </span>
     </div>
@@ -56,12 +56,6 @@ export default {
     },
     created() {
         firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                const { uid, email } = user;
-                localStorage.setItem('user', JSON.stringify({ uid, email }));
-            } else {
-                localStorage.clear();
-            }
             this.user = user || null;
         });
     },
@@ -78,7 +72,7 @@ export default {
 </script>
 
 <style scoped>
-img {
+.logo {
     width: 140px;
     height: 42px;
 }
@@ -89,6 +83,20 @@ ul {
 
 li a {
     color: #000;
+}
+
+.sidebar-header {
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar-header img {
+    border-radius: 100px;
+    margin-top: 50px;
+    max-width: 55%;
+    max-height: 200px;
 }
 
 @media (min-width: 992px) {
