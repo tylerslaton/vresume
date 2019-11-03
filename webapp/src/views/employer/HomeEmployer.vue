@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import db from '../firebase/init';
+import db from '../../firebase/init';
 import firebase from 'firebase/app';
 
 export default {
