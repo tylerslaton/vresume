@@ -11,7 +11,7 @@
                 <input type="password" name="password" v-model="password" required />
             </div>
             <p class="red-text" v-if="error">{{ error }}</p>
-            <button class="btn blue ligthen-1">Submit</button>
+            <button class="btn blue ligthen-1" :disabled="loading">Submit</button>
         </form>
     </div>
 </template>
@@ -27,12 +27,14 @@ export default {
         return {
             email: null,
             password: null,
-            error: null
+            error: null,
+            loading: false
         };
     },
     methods: {
         async login() {
             try {
+                this.loading = true;
                 const cred = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
                 const snapshot = await getCurrentUser();
 
@@ -43,6 +45,7 @@ export default {
             } catch (error) {
                 this.error = error.message || error;
             }
+            this.loading = false;
         }
     }
 };
@@ -62,5 +65,10 @@ h3 {
 
 .input-field {
     margin-bottom: 16px;
+}
+
+.btn:disabled {
+    background-color: #8bbfe7 !important;
+    color: white !important;
 }
 </style>

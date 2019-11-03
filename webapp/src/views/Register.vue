@@ -44,7 +44,7 @@
             </div>
 
             <p class="red-text" v-if="error">{{ error }}</p>
-            <button class="btn blue lighten-1">Submit</button>
+            <button class="btn blue lighten-1" :disabled="true">Submit</button>
         </form>
     </div>
 </template>
@@ -66,6 +66,7 @@ export default {
             lastName: null,
             companyName: null,
             role: 'student',
+            loading: false,
             error: null
         };
     },
@@ -80,6 +81,7 @@ export default {
     methods: {
         async register() {
             try {
+                this.loading = true;
                 const cred = await firebase
                     .auth()
                     .createUserWithEmailAndPassword(this.email, this.password);
@@ -107,6 +109,7 @@ export default {
             } catch (error) {
                 this.error = error.message || error;
             }
+            this.loading = false;
         }
     }
 };
@@ -137,5 +140,10 @@ h3 {
 [type='radio']:checked + span:after,
 [type='radio'].with-gap:checked + span:after {
     background-color: #41a5f5;
+}
+
+.btn:disabled {
+    background-color: #8bbfe7 !important;
+    color: white !important;
 }
 </style>
