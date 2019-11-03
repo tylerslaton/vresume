@@ -1,9 +1,12 @@
 #!/usr/local/bin/python3
 
+
 # OCR stuff
 from PIL import Image
-from pdf2image import convert_from_path
+from PIL import ImageFilter
 import pytesseract
+import pandas
+import re
 
 # Firebase stuff
 import firebase_admin
@@ -45,6 +48,50 @@ def index():
         
     return json.dumps(results)
 
+# OCR helper functions
+polarization_threshold = 200
+
+def polarizeImage(image):
+    gray_doc_image = image.convert('L')
+    polarize = lambda pixel: 0 if pixel < polarization_threshold else 255
+    bw_doc_image = gray_doc_image.point(polarize, '1') 
+    return bw_doc_image
+
+def reversePolarizeImage(image):
+    gray_doc_image = image.convert('L')
+    polarize = lambda pixel: 255 if pixel < polarization_threshold else 0
+    bw_doc_image = gray_doc_image.point(polarize, '1') 
+    return bw_doc_image
+
+def getConfidentWords(image):
+    confident_words = pytesseract.image_to_data(image, output_type='data.frame').query('conf >= 80')
+    return confident_words.iloc[1:, 11].to_numpy()
+
+def combineLists(list_a, list_b):
+    return list(set().union(list_a, list_b))
+
+def getAlteredImages(image):
+    width, height = image.size
+
+    polarized_image = polarizeImage(image)
+    enlarged_image = image.resize((2*width, 2*height))
+    #sharpened_image = image.filter(ImageFilter.SHARPEN).filter(ImageFilter.SHARPEN)
+    mask = polarized_image
+    base = image
+    double_image = base.copy()
+    double_image.paste(mask, None, reversePolarizeImage(mask))
+    return [polarized_image, enlarged_image, double_image]
+
+def getKeywords(image):
+    polarized_image, enlarged_image, double_image = getAlteredImages(image)
+
+    keywords = getConfidentWords(image)
+    keywords = combineLists(keywords, getConfidentWords(polarized_image))
+    keywords = combineLists(keywords, getConfidentWords(enlarged_image))
+    #keywords = combineLists(keywords, getConfidentWords(sharpened_image))
+    keywords = combineLists(keywords, getConfidentWords(double_image))
+    return keywords
+
 # Process route for processing an image
 @app.route('/process', methods = ['POST'])
 def process():
@@ -61,26 +108,26 @@ def process():
             if incomingInfo['appName'] in file:
                 blob = bucket.blob(file)
                 blob.download_to_filename("./testResume.JPG")
+                break
 
         image = Image.open('testResume.JPG')
-        text = pytesseract.image_to_string(polarizeImage(image))
+        text = [word.upper() for word in getKeywords(image)]
+        text_alphanumeric = [re.sub(r'\W+', '', word) for word in text]
 
-        foundTags = []
-        searchingText = text.upper()
+        found_tags = []
         for tag in tags:
-            if tag.upper() in searchingText:
-                foundTags.append(tag)
-        return json.dumps(foundTags)
+            if tag.upper() in text:
+                found_tags.append(tag)
+                
+        found_tags_alphanumeric = []
+        for tag in tags:
+            if tag.upper() in text_alphanumeric:
+                found_tags_alphanumeric.append(tag)
+                
+        return json.dumps(combineLists(found_tags, found_tags_alphanumeric))
 
     except Exception as e:
         return "Failure in process: " + e
-
-# Helper function to improve accuracy
-def polarizeImage(image):
-    gray_doc_image = image.convert('L')
-    polarize = lambda pixel: 0 if pixel < 200 else 255
-    bw_doc_image = gray_doc_image.point(polarize, '1') 
-    return bw_doc_image
 
 # Main function, no touchie
 if __name__ == "__main__":
