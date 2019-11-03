@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <form @submit.prevent="login" class="card-panel">
-            <h3 class="center blue-text">Login</h3>
+            <h3 class="center red-text darken-1">Login</h3>
             <div class="input-field">
                 <label for="email">Email:</label>
                 <input type="email" name="email" v-model="email" required />
@@ -19,6 +19,7 @@
 <script>
 import db from '@/firebase/init';
 import firebase from 'firebase/app';
+import { setCurrentUser, getCurrentUser } from '../services/users';
 
 export default {
     name: 'Register',
@@ -33,11 +34,12 @@ export default {
         async login() {
             try {
                 const cred = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
-                const snapshot = await db
-                    .collection('users')
-                    .where('uid', '==', firebase.auth().currentUser.uid)
-                    .get();
-                snapshot.forEach(doc => this.$router.push({ name: `${doc.data().role}-home` }));
+                const snapshot = await getCurrentUser();
+
+                snapshot.forEach(doc => {
+                    setCurrentUser(doc.data());
+                    this.$router.push({ name: `${doc.data().role}-home` });
+                });
             } catch (error) {
                 this.error = error.message || error;
             }
