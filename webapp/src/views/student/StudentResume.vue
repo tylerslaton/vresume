@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="resume-container">
-            <div v-if="!userResume && !loading" class="card-panel">
-                <h3 class="center">Please upload your resume</h3>
+            <div v-if="!userResume && !loading">
+                <h5 class="center">You have not submitted a resume</h5>
             </div>
             <img class="resume" v-if="userResume" :src="userResume" alt />
             <br />

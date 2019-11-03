@@ -10,10 +10,13 @@
                 >
                     <i class="material-icons">menu</i>
                 </a>
-                <img
-                    src="https://cdn.discordapp.com/attachments/636610599534723093/640305846621831228/cropped_black.png"
-                    class="logo"
-                />
+                <a class="brand-logo center">
+                    <img
+                        src="https://cdn.discordapp.com/attachments/636610599534723093/640305846621831228/cropped_black.png"
+                        class="logo"
+                    />
+                </a>
+
                 <ul class="right">
                     <li v-if="!user">
                         <router-link :to="{ name: 'register' }">Register</router-link>
@@ -47,10 +50,7 @@ export default {
     },
     computed: {
         showSideNav() {
-            return (
-                this.user &&
-                (this.$route.name !== 'login' && this.$route.name !== 'register')
-            );
+            return this.user && (this.$route.name !== 'login' && this.$route.name !== 'register');
         }
     },
     created() {
@@ -74,7 +74,8 @@ export default {
 .logo {
     width: 140px;
     height: 42px;
-    margin-left: auto;
+    display: flex;
+    margin-left: 0;
 }
 
 ul {
@@ -88,6 +89,10 @@ li a {
 @media (min-width: 992px) {
     .sidenav-trigger {
         display: none;
+    }
+
+    .logo {
+        margin-left: 300px;
     }
 }
 </style>
