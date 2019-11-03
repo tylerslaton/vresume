@@ -40,6 +40,10 @@
                     @click="setCurrentComponent('ViewResumes')"
                 >View all resumes</li>
                 <li
+                    :class="{'is-active': currentComponent === 'AcceptQRCode'}"
+                    @click="setCurrentComponent('AcceptQRCode')"
+                >Scan resume</li>
+                <li
                     :class="{'is-active': currentComponent === 'HowItWorks'}"
                     @click="setCurrentComponent('HowItWorks')"
                 >How it works</li>
@@ -108,12 +112,7 @@ export default {
             await db
                 .collection('users')
                 .doc(this.userID)
-                .set(
-                    {
-                        profilePicture: this.userImage
-                    },
-                    { merge: true }
-                );
+                .set({ profilePicture: this.userImage }, { merge: true });
             this.uploading = false;
         },
         chooseFile() {
