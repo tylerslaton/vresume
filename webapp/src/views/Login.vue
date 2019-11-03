@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <form @submit.prevent="login" class="card-panel">
-            <h3 class="center red-text darken-1">Login</h3>
+            <h5 class="center">Login</h5>
             <div class="input-field">
                 <label for="email">Email:</label>
                 <input type="email" name="email" v-model="email" required />
@@ -57,8 +57,7 @@ export default {
     margin-top: 60px;
 }
 
-h3 {
-    font-size: 2.4em;
+h5 {
     margin-top: 0;
     margin-bottom: 35px;
 }

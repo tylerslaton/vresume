@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <form @submit.prevent="register" class="card-panel">
-            <h3 class="center blue-text">Register</h3>
+            <h5 class="center">Register</h5>
             <div class="input-field">
                 <label for="email">Email:</label>
                 <input type="email" name="email" v-model="email" required />
@@ -44,7 +44,7 @@
             </div>
 
             <p class="red-text" v-if="error">{{ error }}</p>
-            <button class="btn blue lighten-1" :disabled="true">Submit</button>
+            <button class="btn blue ligthen-1" :disabled="loading">Submit</button>
         </form>
     </div>
 </template>
@@ -121,8 +121,7 @@ export default {
     margin-top: 60px;
 }
 
-h3 {
-    font-size: 2.4em;
+h5 {
     margin-top: 0;
     margin-bottom: 35px;
 }
