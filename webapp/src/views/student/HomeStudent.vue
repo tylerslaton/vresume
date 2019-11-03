@@ -21,7 +21,7 @@ import HowItWorks from './HowItWorks.vue';
 import SideNavbar from '../../components/SideNavbar.vue';
 
 export default {
-    name: 'home',
+    name: 'HomeStudent',
     components: {
         StudentResume,
         ResumeTips,

@@ -16,7 +16,7 @@ import ConfigureBot from './ConfigureBot.vue';
 import HowItWorks from './HowItWorks.vue';
 
 export default {
-    name: 'home',
+    name: 'HomeEmployer',
     components: {
         ViewResumes,
         ConfigureBot,
