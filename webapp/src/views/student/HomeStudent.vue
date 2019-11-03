@@ -1,20 +1,35 @@
 <template>
-    <div class="container" style="margin-top: 50px;">
-        <h3 v-if="user" class="center">Student Home</h3>
-        <!-- <Resume /> -->
+    <div>
+        <div class="container" style="margin-top: 50px;">
+            <component :is="currentComponent || 'StudentResume'" />
+        </div>
     </div>
 </template>
 
 <script>
 import db from '../../firebase/init';
 import firebase from 'firebase/app';
+import { mapState } from 'vuex';
 
-import Resume from '../../components/Resume.vue';
+import StudentResume from './StudentResume.vue';
+import ResumeTips from './ResumeTips.vue';
+import InterviewTips from './InterviewTips';
+import BrandAwareness from './BrandAwareness.vue';
+import HowItWorks from './HowItWorks.vue';
+import SideNavbar from '../../components/SideNavbar.vue';
 
 export default {
     name: 'home',
     components: {
-        Resume
+        StudentResume,
+        ResumeTips,
+        InterviewTips,
+        BrandAwareness,
+        HowItWorks,
+        SideNavbar
+    },
+    computed: {
+        ...mapState(['currentComponent'])
     }
 };
 </script>
