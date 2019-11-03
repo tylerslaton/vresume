@@ -53,15 +53,14 @@ export default {
                     .get();
                 user = doc.data();
 
-                // axios
-                //     .post('35.230.183.218/process/', {
-                //         employerID: 'EeN2y5eR1VNaDlkRfASHjjdRiXk1',
-                //         appName: 'Master_Resume_PDF-1',
-                //         tags: ['JavaScript', 'Mongo.db'],
-                //         expedite: true
-                //     })
-                //     .then(res => console.log(res.data));
+                // const res = await axios.post('35.230.183.218/process', {
+                //     employerID: 'EeN2y5eR1VNaDlkRfASHjjdRiXk1',
+                //     appName: 'Master_Resume_PDF-1',
+                //     tags: ['JavaScript', 'Mongo.db'],
+                //     expedite: true
+                // });
 
+                // console.log(res.data);
 
                 // get applicants from employer and update tags
                 const applicants = employer.applicants || [];
@@ -78,11 +77,11 @@ export default {
                     .doc(employer.uid)
                     .set({ applicants }, { merge: true });
 
-                this.loading = false;
                 this.success = true;
             } catch (error) {
                 this.error = 'Something went wrong, please try again!';
             }
+            this.loading = false;
         }
     }
 };
