@@ -32,16 +32,20 @@ const router = new VueRouter({
             meta: {
                 requiresAuth: true
             }
+        },
+        {
+            path: '*',
+            redirect: '/login'
         }
     ]
 });
 
 router.beforeEach((to, from, next) => {
-    // check if route requires auth
     if (to.matched.some(rec => rec.meta.requiresAuth)) {
         if (firebase.auth().currentUser) {
             next();
         } else {
+            firebase.auth().signOut();
             next({ name: 'login' });
         }
     } else {

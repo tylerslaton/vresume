@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
+import firebase from 'firebase';
 import db from '../firebase/init';
 import { mapActions } from 'vuex';
 import { getCurrentUser } from '../services/users';
@@ -40,7 +40,7 @@ export default {
         return {
             user: null,
             userImage: null,
-            userID: firebase.auth().currentUser.uid,
+            userID: null,
             displayName: null,
             loading: true
         };
@@ -53,14 +53,18 @@ export default {
                 .child(`profile_pictures/${this.userID}/${this.pictureToUpload.name}`);
         },
         profilePic() {
-            return this.userImage || 'http://tbfsa.co.za/wp-content/uploads/2016/09/profile-placeholder.jpg';
+            return (
+                this.userImage || 'http://tbfsa.co.za/wp-content/uploads/2016/09/profile-placeholder.jpg'
+            );
         }
     },
     created() {
         firebase.auth().onAuthStateChanged(async user => {
             this.loading = true;
             if (user) {
+                M.AutoInit();
                 const snapshot = await getCurrentUser();
+                this.userID = firebase.auth().currentUser.uid;
                 snapshot.forEach(doc => (this.user = doc.data()));
                 if (this.user && this.user.role === 'student') {
                     this.displayName = `${this.user.firstName} ${this.user.lastName}`;
@@ -85,7 +89,7 @@ export default {
                 .doc(this.userID)
                 .set(
                     {
-                        profilePicture: picture
+                        profilePicture: this.userImage
                     },
                     { merge: true }
                 );
@@ -115,7 +119,9 @@ export default {
     cursor: pointer;
 }
 
-li {
+li,
+.sidebar-header span {
     cursor: pointer;
+    font-size: 18px;
 }
 </style>

@@ -14,6 +14,7 @@
                     <img
                         src="https://cdn.discordapp.com/attachments/636610599534723093/640305846621831228/cropped_black.png"
                         class="logo"
+                        :class="{'logo-logged-in': showSideNav}"
                     />
                 </a>
 
@@ -56,6 +57,7 @@ export default {
     created() {
         firebase.auth().onAuthStateChanged(user => {
             this.user = user || null;
+            M.AutoInit();
         });
     },
     mounted() {
@@ -75,6 +77,9 @@ export default {
     width: 140px;
     height: 42px;
     display: flex;
+}
+
+.logo-logged-in {
     margin-left: 0;
 }
 
@@ -91,7 +96,7 @@ li a {
         display: none;
     }
 
-    .logo {
+    .logo-logged-in {
         margin-left: 300px;
     }
 }
