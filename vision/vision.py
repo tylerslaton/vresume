@@ -102,9 +102,10 @@ def process():
         employerID = incomingInfo['employerID']
         appName    = incomingInfo['appName']
         tags       = incomingInfo['tags']
-        expedite   = incomingInfo['expedite']
         
-        if expedite is None:
+        try:
+            expedite = incomingInfo['expedite']
+        except:
             expedite = False
 
         files = bucket.list_blobs(prefix='resumes/'+incomingInfo['employerID'])
