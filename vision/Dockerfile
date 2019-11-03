@@ -7,7 +7,8 @@ COPY . .
 RUN pip3 install             \
         pytesseract          \
         pillow               \
-        pdf2image            \
+        pandas               \
+        re                   \
         flask                \
         firebase_admin       \
         google-cloud-storage \
