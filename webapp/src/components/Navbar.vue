@@ -89,6 +89,7 @@ ul {
 
 li a {
     color: #000;
+    font-size: 18px;
 }
 
 @media (min-width: 992px) {

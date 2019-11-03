@@ -12,14 +12,12 @@ import firebase from 'firebase/app';
 import { mapState } from 'vuex';
 
 import ViewResumes from './ViewResumes.vue';
-import ConfigureBot from './ConfigureBot.vue';
 import HowItWorks from './HowItWorks.vue';
 
 export default {
     name: 'HomeEmployer',
     components: {
         ViewResumes,
-        ConfigureBot,
         HowItWorks
     },
     data() {
