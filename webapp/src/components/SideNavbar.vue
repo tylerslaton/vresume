@@ -1,7 +1,7 @@
 <template>
     <div id="slide-out" class="sidenav sidenav-fixed">
-        <div v-if="!loading" class="sidebar-header red lighten-1 valign-wrapper">
-            <img class="center" :src="userImage" @click="chooseFile" />
+        <div v-if="!loading && user" class="sidebar-header red lighten-1 valign-wrapper">
+            <img class="center" :src="profilePic" @click="chooseFile" />
             <input
                 type="file"
                 id="profile-picture"
@@ -39,6 +39,7 @@ export default {
     data() {
         return {
             user: null,
+            userImage: null,
             userID: firebase.auth().currentUser.uid,
             displayName: null,
             loading: true
@@ -51,10 +52,8 @@ export default {
                 .ref()
                 .child(`profile_pictures/${this.userID}/${this.pictureToUpload.name}`);
         },
-        userImage() {
-            return this.user && this.user.profilePicture
-                ? this.user.profilePicture
-                : 'http://tbfsa.co.za/wp-content/uploads/2016/09/profile-placeholder.jpg';
+        profilePic() {
+            return this.userImage || 'http://tbfsa.co.za/wp-content/uploads/2016/09/profile-placeholder.jpg';
         }
     },
     created() {
@@ -68,6 +67,7 @@ export default {
                 } else if (this.user && this.user.role === 'employer') {
                     this.displayName = this.user.companyName;
                 }
+                this.userImage = this.user.profilePicture;
             }
             this.loading = false;
         });
@@ -78,14 +78,14 @@ export default {
             this.pictureToUpload = document.querySelector('#profile-picture').files[0];
             if (!this.pictureToUpload) return;
             this.uploading = true;
-            const snapshot = await this.uploadRef.put(this.pictureToUpload);
-            this.user.profilePicture = await this.uploadRef.getDownloadURL();
+            await this.uploadRef.put(this.pictureToUpload);
+            this.userImage = await this.uploadRef.getDownloadURL();
             await db
                 .collection('users')
                 .doc(this.userID)
                 .set(
                     {
-                        profilePicture: this.user.profilePicture
+                        profilePicture: picture
                     },
                     { merge: true }
                 );
