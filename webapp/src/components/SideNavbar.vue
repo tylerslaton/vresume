@@ -70,8 +70,9 @@ export default {
 .sidebar-header img {
     border-radius: 100px;
     margin-bottom: 15px;
-    max-width: 55%;
-    max-height: 200px;
+    width: 175px;
+    height: 175px;
+    object-fit: cover;
 }
 
 li {
