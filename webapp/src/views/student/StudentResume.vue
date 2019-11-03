@@ -75,12 +75,7 @@ export default {
             await db
                 .collection('users')
                 .doc(this.userID)
-                .set(
-                    {
-                        resume: this.userResume
-                    },
-                    { merge: true }
-                );
+                .set({ resume: this.userResume }, { merge: true });
             this.uploading = false;
         }
     }
