@@ -63,7 +63,7 @@ def reversePolarizeImage(image):
     return bw_doc_image
 
 def getConfidentWords(image):
-    confident_words = pytesseract.image_to_data(image, output_type='data.frame').query('conf >= 85')
+    confident_words = pytesseract.image_to_data(image, output_type='data.frame').query('conf >= 80')
     return confident_words.iloc[1:, 11].to_numpy()
 
 def combineLists(list_a, list_b):
@@ -111,18 +111,19 @@ def process():
 
         image = Image.open('testResume.JPG')
         text = [word.upper() for word in getKeywords(image)]
-        text_wo_whitespace = [re.sub(r'\W+', '', word) for word in text]
+        text_alphanumeric = [re.sub(r'\W+', '', word) for word in text]
 
-        foundTags = []
+        found_tags = []
         for tag in tags:
             if tag.upper() in text:
-                foundTags.append(tag)
+                found_tags.append(tag)
                 
+        found_tags_alphanumeric = []
         for tag in tags:
-            if tag.upper() in text_wo_whitespace:
-                foundTags.append(tag)
+            if tag.upper() in text_alphanumeric:
+                found_tags_alphanumeric.append(tag)
                 
-        return json.dumps(foundTags)
+        return json.dumps(combineLists(found_tags, found_tags_alphanumeric))
 
     except Exception as e:
         return "Failure in process: " + e
