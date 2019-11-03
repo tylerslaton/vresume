@@ -11,7 +11,7 @@
                 :disabled="uploading"
                 class="btn blue darken-1"
                 @click="chooseFile"
-            >Upload</button>
+            >{{ buttonText }}</button>
             <input
                 type="file"
                 id="resume"
@@ -45,6 +45,9 @@ export default {
                 .storage()
                 .ref()
                 .child(`resumes/${this.userID}/${this.resumeToUpload.name}`);
+        },
+        buttonText() {
+            return this.userResume ? 'Update resume' : 'Upload resume';
         }
     },
     async created() {
@@ -67,7 +70,7 @@ export default {
             this.resumeToUpload = document.querySelector('#resume').files[0];
             if (!this.resumeToUpload) return;
             this.uploading = true;
-            const snapshot = await this.uploadRef.put(this.resumeToUpload);
+            await this.uploadRef.put(this.resumeToUpload);
             this.userResume = await this.uploadRef.getDownloadURL();
             await db
                 .collection('users')
