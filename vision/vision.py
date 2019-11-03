@@ -1,5 +1,6 @@
 #!/usr/local/bin/python3
 
+
 # OCR stuff
 from PIL import Image
 from PIL import ImageFilter
