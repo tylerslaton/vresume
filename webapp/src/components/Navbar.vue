@@ -3,7 +3,7 @@
         <nav class="white">
             <div class="container valign-wrapper">
                 <a
-                    v-show="showSideNav"
+                    v-show="loggedIn"
                     href="#"
                     data-target="slide-out"
                     class="sidenav-trigger black-text"
@@ -14,24 +14,24 @@
                     <img
                         src="https://cdn.discordapp.com/attachments/636610599534723093/640305846621831228/cropped_black.png"
                         class="logo"
-                        :class="{'logo-logged-in': showSideNav}"
+                        :class="{'logo-logged-in': loggedIn}"
                     />
                 </a>
 
                 <ul class="right">
-                    <li v-if="!user">
+                    <li v-if="!loggedIn">
                         <router-link :to="{ name: 'register' }">Register</router-link>
                     </li>
-                    <li v-if="!user">
+                    <li v-if="!loggedIn">
                         <router-link :to="{ name: 'login' }">Login</router-link>
                     </li>
-                    <li v-if="user">
+                    <li v-if="loggedIn">
                         <a @click="logout">Logout</a>
                     </li>
                 </ul>
             </div>
         </nav>
-        <SideNavbar v-show="showSideNav" />
+        <SideNavbar v-show="loggedIn" />
     </div>
 </template>
 
@@ -50,7 +50,7 @@ export default {
         };
     },
     computed: {
-        showSideNav() {
+        loggedIn() {
             return this.user && (this.$route.name !== 'login' && this.$route.name !== 'register');
         }
     },
