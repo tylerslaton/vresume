@@ -1,8 +1,8 @@
 <template>
     <div class="container" style="margin-top: 50px;">
-        <keep-alive>
-            <component :is="currentComponent || 'ViewResumes'" />
-        </keep-alive>
+        <!-- <keep-alive> -->
+        <component :is="currentComponent || 'ViewResumes'" />
+        <!-- </keep-alive> -->
     </div>
 </template>
 
@@ -12,14 +12,14 @@ import firebase from 'firebase/app';
 import { mapState } from 'vuex';
 
 import ViewResumes from './ViewResumes.vue';
-import ConfigureBot from './ConfigureBot.vue';
 import HowItWorks from './HowItWorks.vue';
+import AcceptQRCode from './AcceptQRCode.vue';
 
 export default {
-    name: 'home',
+    name: 'HomeEmployer',
     components: {
         ViewResumes,
-        ConfigureBot,
+        AcceptQRCode,
         HowItWorks
     },
     data() {

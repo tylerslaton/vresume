@@ -10,10 +10,14 @@
                 >
                     <i class="material-icons">menu</i>
                 </a>
-                <img
-                    src="https://cdn.discordapp.com/attachments/636610599534723093/640305846621831228/cropped_black.png"
-                    class="logo"
-                />
+                <a>
+                    <img
+                        src="https://cdn.discordapp.com/attachments/636610599534723093/640305846621831228/cropped_black.png"
+                        class="logo"
+                        :class="{'logo-logged-in': showSideNav}"
+                    />
+                </a>
+
                 <ul class="right">
                     <li v-if="!user">
                         <router-link :to="{ name: 'register' }">Register</router-link>
@@ -47,15 +51,13 @@ export default {
     },
     computed: {
         showSideNav() {
-            return (
-                this.user &&
-                (this.$route.name !== 'login' && this.$route.name !== 'register')
-            );
+            return this.user && (this.$route.name !== 'login' && this.$route.name !== 'register');
         }
     },
     created() {
         firebase.auth().onAuthStateChanged(user => {
             this.user = user || null;
+            M.AutoInit();
         });
     },
     mounted() {
@@ -74,6 +76,11 @@ export default {
 .logo {
     width: 140px;
     height: 42px;
+    display: flex;
+}
+
+.logo-logged-in {
+    margin-left: 0;
 }
 
 ul {
@@ -82,6 +89,7 @@ ul {
 
 li a {
     color: #000;
+    font-size: 18px;
 }
 
 @media (min-width: 992px) {
