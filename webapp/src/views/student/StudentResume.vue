@@ -29,7 +29,7 @@
                     href="#QRCodeModal"
                     style="margin-left: 15px;"
                     @click="generateQRCode"
-                >Generate QR Code</a>
+                >QR Code</a>
             </div>
 
             <input
@@ -69,7 +69,7 @@ export default {
                 .child(`resumes/${this.userID}/${this.resumeToUpload.name}`);
         },
         buttonText() {
-            return this.userResume ? 'Update resume' : 'Upload resume';
+            return this.userResume ? 'Update' : 'Upload resume';
         }
     },
     async created() {
@@ -102,18 +102,18 @@ export default {
             this.uploading = false;
         },
         generateQRCode() {
-            const code = encodeURIComponent(this.userResume);
-            this.generatedCode = `https://api.qrserver.com/v1/create-qr-code/?data=${code}&size=200x200`;
+            const userID = encodeURIComponent(this.userID);
+            this.generatedCode = `https://api.qrserver.com/v1/create-qr-code/?data=${userID}&size=200x200`;
         }
     }
 };
 </script>
 
 <style scoped>
-.modal.open {
+.modal {
     left: auto;
     right: auto;
-    width: 375px;
+    width: 345px;
     height: 340px;
 }
 
